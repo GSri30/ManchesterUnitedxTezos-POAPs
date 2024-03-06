@@ -1,0 +1,7 @@
+POST http://65.0.41.80/api/v1/claimNft HTTP/1.1
+content-type: application/json
+
+{
+	"tokenId" : 5,
+	"userAddress" : "tz1USmQMoNCUUyk4BfeEGUyZRK2Bcc9zoK8C"
+}

@@ -1,0 +1,48 @@
+{
+  "name": "naan-art-expo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/nodemon app.js --ignore 'utils/*/*.json'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tezsure/naan-art-expo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tezsure/naan-art-expo/issues"
+  },
+  "homepage": "https://github.com/Tezsure/naan-art-expo#readme",
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "@taquito/signer": "^15.1.0",
+    "@taquito/taquito": "^15.1.0",
+    "aws-sdk": "^2.1301.0",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.3",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-winston": "^4.2.0",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.7.7",
+    "helmet": "^5.0.2",
+    "hpp": "^0.2.3",
+    "legit": "^1.0.9",
+    "node-fetch": "^3.3.0",
+    "nodemailer": "^6.9.1",
+    "path": "^0.12.7",
+    "winston": "^3.8.2",
+    "xss-clean": "^0.1.1"
+  }
+}
