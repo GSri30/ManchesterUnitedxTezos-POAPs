@@ -1,0 +1,25 @@
+Comment...
+ h1: Manchester United POAP Tests
+Comment...
+ p: A test to directly mint fa1.2 tokens to user.
+Comment...
+ h2: Accounts
+Computing sp.list([sp.test_account("Administrator"), sp.test_account("Alice"), sp.test_account("Bob")])...
+ => [sp.record(seed = 'Administrator', address = sp.address('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w'), public_key = sp.key('edpktzrjdb1tx6dQecQGZL6CwhujWg1D2CXfXWBriqtJSA6kvqMwA2'), public_key_hash = sp.key_hash('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w'), secret_key = sp.secret_key('edsk3SUiUcR33jiBmxRDke8MKfd18dxmq2fUbZWZFYoiEsTkpAz5F7')), sp.record(seed = 'Alice', address = sp.address('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), public_key = sp.key('edpkuvNy6TuQ2z8o9wnoaTtTXkzQk7nhegCHfxBc4ecsd4qG71KYNG'), public_key_hash = sp.key_hash('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), secret_key = sp.secret_key('edsk34XphRR5Rs6EeAGrxktxAhstbwPr5YZ4m7RMzjaed3n9g5JcBB')), sp.record(seed = 'Bob', address = sp.address('tz1Rp4Bv8iUhYnNoCryHQgNzN2D7i3L1LF9C'), public_key = sp.key('edpkufVmvzkm4oFQ7WcF5NJbq9BFB2mWRsm4Dyh2spMDuDxWSQWHuT'), public_key_hash = sp.key_hash('tz1Rp4Bv8iUhYnNoCryHQgNzN2D7i3L1LF9C'), secret_key = sp.secret_key('edsk3Rg6sSnow8KiHdHbWBZVF4Xui8ucyxmujHeA35HaAgvwKuXWio'))]
+Comment...
+ h2: FA1.2 contract
+Creating contract KT1TezoooozzSmartPyzzSTATiCzzzwwBFA1
+ -> (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {} (Pair {Elt "" 0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664} (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d414e554e504f4150; Elt "symbol" 0x4d414e554e504f4150})} 0)))))
+file Manchester_United_POAP/step_007_cont_0_storage.tz
+file Manchester_United_POAP/step_007_cont_0_storage.json
+file Manchester_United_POAP/step_007_cont_0_storage.py
+file Manchester_United_POAP/step_007_cont_0_types.py
+file Manchester_United_POAP/step_007_cont_0_contract.tz contract ManUnPOAP
+file Manchester_United_POAP/step_007_cont_0_contract.json contract ManUnPOAP
+Comment...
+ h2: Mint
+file Manchester_United_POAP/step_009_cont_0_params.py
+file Manchester_United_POAP/step_009_cont_0_params.tz
+file Manchester_United_POAP/step_009_cont_0_params.json
+Executing mint(sp.record(address = sp.address('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), value = 10))...
+ -> (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {} 10)} (Pair {Elt "" 0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664} (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d414e554e504f4150; Elt "symbol" 0x4d414e554e504f4150})} 10)))))

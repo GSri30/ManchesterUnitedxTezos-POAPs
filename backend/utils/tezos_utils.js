@@ -9,7 +9,7 @@ const fetch = (...args) =>
 const { InMemorySigner } = require('@taquito/signer');
 const taquito = require('@taquito/taquito');
 
-const memory = require('./memory');
+const memory = require('./memory/memory');
 const { addClaimed } = require('./db');
 const { infoLogger } = require('./loggers');
 
@@ -94,6 +94,37 @@ async function sendTx(emailAddress, userAddress, signer, nftId) {
   }
 }
 
+// send Tx
+async function mintTx(emailAddress, userAddress, signer, nftId) {
+  try {
+    const tezToolKit = new taquito.TezosToolkit(process.env.RPC_URL);
+    tezToolKit.setProvider({
+      signer: signer,
+    });
+    const contract = await tezToolKit.contract.at(process.env.NFT_CONTRACT);
+    const mintParams = {
+      address: userAddress,
+      value: 1
+    };
+    const batch = tezToolKit.wallet
+      .batch()
+      .withContractCall(contract.methods.mint(userAddress, 1));
+    const operation = await batch.send();
+    infoLogger('Operation hash: ' + operation.opHash);
+    await operation.confirmation();
+    infoLogger(`Sent tx to (${emailAddress},${userAddress}) from account: ${await signer.publicKeyHash()}`);
+
+    return operation.opHash;
+  } catch (error) {
+    infoLogger(
+      `FAILED to sent tx from account: ${await signer.publicKeyHash()}`,
+    );
+    console.log(error);
+    infoLogger(error);
+    return;
+  }
+}
+
 // check status of accounts and send tx
 async function checkStatusAndSendTx(emailAddress, userAddress) {
   // if all memory is busy, return
@@ -116,7 +147,8 @@ async function checkStatusAndSendTx(emailAddress, userAddress) {
           derivationPath: `m/44'/1729'/${key}'/0'`,
         });
         const signerAddress = await signer.publicKeyHash();
-        const nftId = await getRandomNftId(signerAddress);
+        // const nftId = await getRandomNftId(signerAddress);
+        const nftId = 1
         if (nftId !== null) {
           const tezToolKit = new taquito.TezosToolkit(process.env.RPC_URL);
           tezToolKit.setProvider({ signer: signer });
@@ -128,7 +160,7 @@ async function checkStatusAndSendTx(emailAddress, userAddress) {
             infoLogger(
               `Sending tx to (${emailAddress},${userAddress}) from account: ${signerAddress}`,
             );
-            const hash = await sendTx(emailAddress, userAddress, signer, nftId);
+            const hash = await mintTx(emailAddress, userAddress, signer, nftId);
             if (hash) {
               // add address to claim list
               await addClaimed(emailAddress, userAddress);
@@ -168,7 +200,7 @@ async function checkStatusAndSendTx(emailAddress, userAddress) {
     }
   } catch (error) {
     mempool.push({ emailAddress, userAddress });
-    if (!memory.isAllBusy()) checkStatusAndSendTx(emailAddress, userAddress);
+    // if (!memory.isAllBusy()) checkStatusAndSendTx(emailAddress, userAddress);
 
     infoLogger('Mempool update: ' + JSON.stringify(mempool));
     infoLogger(error);

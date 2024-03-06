@@ -3,16 +3,16 @@
 
 const tezosUtils = require('../utils/tezos_utils');
 const { checkClaimed } = require('../utils/db');
-const { isPaused } = require('../utils/memory');
+const { isPaused } = require('../utils/memory/memory');
 
 exports.claimNft = async (req, res, next) => {
   const { emailAddress, userAddress } = req.body;
 
-  // check if emailAddress and userAddress are passed as parameters
-  if (!emailAddress || !userAddress) {
+  // check if walletAddress are passed as parameters
+  if (!userAddress) {
     res.json({
       title: 'Invalid parameters',
-      subtitle: 'Email address or wallet address not provided'
+      subtitle: 'Wallet address not provided'
     });
     return;
   }
@@ -26,15 +26,15 @@ exports.claimNft = async (req, res, next) => {
     return;
   }
 
-  // check if userAddress is not already in claim list for particular emailAddress
-  const claimedMessage = await checkClaimed(emailAddress, userAddress);
-  if (claimedMessage) {
-    res.json({
-      title: 'Already claimed',
-      subtitle: claimedMessage
-    });
-    return;
-  }
+  // // check if userAddress is not already in claim list for particular emailAddress
+  // const claimedMessage = await checkClaimed(emailAddress, userAddress);
+  // if (claimedMessage) {
+  //   res.json({
+  //     title: 'Already claimed',
+  //     subtitle: claimedMessage
+  //   });
+  //   return;
+  // }
 
   // create the transaction for activate and send nfts
   tezosUtils.addToMempool(emailAddress, userAddress);
