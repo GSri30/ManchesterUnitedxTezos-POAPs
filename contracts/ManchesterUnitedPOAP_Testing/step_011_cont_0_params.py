@@ -1,0 +1,1 @@
+[sp.record(to_ = sp.address('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), metadata = {'decimals' : sp.bytes('0x31'), 'name' : sp.bytes('0x4d414e554e20504f4150'), 'symbol' : sp.bytes('0x4d414e554e')})]

@@ -26,15 +26,15 @@ exports.claimNft = async (req, res, next) => {
     return;
   }
 
-  // // check if userAddress is not already in claim list for particular emailAddress
-  // const claimedMessage = await checkClaimed(emailAddress, userAddress);
-  // if (claimedMessage) {
-  //   res.json({
-  //     title: 'Already claimed',
-  //     subtitle: claimedMessage
-  //   });
-  //   return;
-  // }
+  // check if userAddress is not already in claim list for particular emailAddress
+  const claimedMessage = await checkClaimed(userAddress);
+  if (claimedMessage) {
+    res.json({
+      title: 'Already claimed',
+      subtitle: claimedMessage
+    });
+    return;
+  }
 
   // create the transaction for activate and send nfts
   tezosUtils.addToMempool(emailAddress, userAddress);

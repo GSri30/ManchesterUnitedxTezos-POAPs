@@ -8,7 +8,8 @@ const fetch = (...args) =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const { InMemorySigner } = require('@taquito/signer');
 const taquito = require('@taquito/taquito');
-
+const { MichelsonMap } = require('@taquito/taquito');
+const { char2Bytes } = require('@taquito/utils');
 const memory = require('./memory/memory');
 const { addClaimed } = require('./db');
 const { infoLogger } = require('./loggers');
@@ -95,20 +96,31 @@ async function sendTx(emailAddress, userAddress, signer, nftId) {
 }
 
 // send Tx
-async function mintTx(emailAddress, userAddress, signer, nftId) {
+async function mintTx(emailAddress, userAddress, metadata, signer, nftId) {
   try {
     const tezToolKit = new taquito.TezosToolkit(process.env.RPC_URL);
     tezToolKit.setProvider({
       signer: signer,
     });
     const contract = await tezToolKit.contract.at(process.env.NFT_CONTRACT);
-    const mintParams = {
-      address: userAddress,
-      value: 1
-    };
+    console.log(metadata);
+    const token_metadata = MichelsonMap.fromLiteral({
+      "name" : char2Bytes(metadata.name),
+      "symbol" : char2Bytes(metadata.symbol),
+      "artifactUri" : char2Bytes(metadata.artifactUri),
+      "displayUri" : char2Bytes(metadata.artifactUri),
+      "thumbnailUri" : char2Bytes(metadata.thumbnailUri),
+      "metadata" : char2Bytes(metadata.metadata),
+      "decimals" : char2Bytes("0")
+    });
+    console.log(metadata);
+    const mintParams = [{
+      to_: userAddress,
+      metadata: token_metadata
+    }];
     const batch = tezToolKit.wallet
       .batch()
-      .withContractCall(contract.methods.mint(userAddress, 1));
+      .withContractCall(contract.methods.mint(mintParams));
     const operation = await batch.send();
     infoLogger('Operation hash: ' + operation.opHash);
     await operation.confirmation();
@@ -160,10 +172,18 @@ async function checkStatusAndSendTx(emailAddress, userAddress) {
             infoLogger(
               `Sending tx to (${emailAddress},${userAddress}) from account: ${signerAddress}`,
             );
-            const hash = await mintTx(emailAddress, userAddress, signer, nftId);
+            const token_metadata = {
+              "name": "Manchester United POAP",
+              "symbol": "MANUNPOAP",
+              "artifactUri": "https://smartpy.io/static/img/logo-only.svg",
+              "thumbnailUri": "https://smartpy.io/static/img/logo-only.svg",
+              "metadata": ""
+            };
+            const hash = await mintTx(emailAddress, userAddress, token_metadata, signer, nftId);
             if (hash) {
               // add address to claim list
-              await addClaimed(emailAddress, userAddress);
+              console.log("Hey");
+              await addClaimed(userAddress);
               memory.toggleStatus(key);
               if (mempool.length > 0) {
                 checkStatusAndSendTx(
